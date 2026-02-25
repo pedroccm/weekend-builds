@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekend Builds | Pedro Marques</title>
+  <meta name="description" content="Send me your idea and I'll build it this weekend. Record a voice message or fill a quick form.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">Weekend Project</span>
+      <h1>Got an idea?<br><span class="gradient-text">I'll build it this weekend.</span></h1>
+      <p class="subtitle">Record a quick voice message or fill in the form. It goes straight to my WhatsApp.</p>
+    </header>
+
+    <main>
+      <form class="card" id="idea-form" autocomplete="off">
+        <div class="form-fields">
+          <div class="input-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required>
+          </div>
+          <div class="input-group">
+            <label for="linkedin">LinkedIn</label>
+            <input type="url" id="linkedin" placeholder="https://linkedin.com/in/you" required>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="idea-section">
+          <p class="idea-label">Your idea</p>
+          <div class="method-tabs">
+            <button type="button" class="method-tab active" data-method="audio" id="audio-tab-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/>
+                <line x1="8" y1="23" x2="16" y2="23"/>
+              </svg>
+              Record Audio
+            </button>
+            <button type="button" class="method-tab" data-method="text" id="text-tab-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Type It
+            </button>
+          </div>
+
+          <!-- Audio Panel -->
+          <div class="panel" id="audio-panel">
+            <div class="audio-recorder" id="audio-recorder">
+              <button type="button" class="mic-btn" id="mic-btn">
+                <svg class="mic-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                  <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+                <svg class="stop-icon hidden" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="6" width="12" height="12" rx="2"/>
+                </svg>
+                <div class="pulse-ring"></div>
+              </button>
+              <p class="mic-label" id="mic-label">Click to start recording</p>
+              <span class="timer hidden" id="timer">00:00</span>
+            </div>
+
+            <div class="transcription-box hidden" id="transcription-box">
+              <div class="transcription-text" id="transcription" contenteditable="true" data-placeholder="Transcription will appear here..."></div>
+              <p class="hint">You can edit the text above before sending</p>
+            </div>
+
+            <div class="no-speech hidden" id="no-speech">
+              <p>Voice recording is not supported in your browser. Please type your idea instead.</p>
+            </div>
+          </div>
+
+          <!-- Text Panel -->
+          <div class="panel hidden" id="text-panel">
+            <div class="input-group">
+              <textarea id="idea" placeholder="I want an app that..." rows="4"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn" disabled>
+          <span class="btn-text">Send Idea</span>
+          <span class="btn-loading hidden">
+            <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+            Sending...
+          </span>
+        </button>
+      </form>
+
+      <!-- Success State -->
+      <div class="card success-card hidden" id="success-card">
+        <div class="success-icon">&#10003;</div>
+        <h2>Idea sent!</h2>
+        <p>Thanks! I received your idea on WhatsApp.<br>I'll check it out and get back to you.</p>
+        <button type="button" class="btn-submit" id="new-idea-btn">Send Another Idea</button>
+      </div>
+
+      <!-- Error State -->
+      <div class="toast hidden" id="toast">
+        <p id="toast-msg"></p>
+      </div>
+
+      <section class="how-it-works">
+        <div class="how-step">
+          <span class="how-icon">1</span>
+          <p>Send your idea</p>
+        </div>
+        <div class="how-arrow">&rarr;</div>
+        <div class="how-step">
+          <span class="how-icon">2</span>
+          <p>I review &amp; pick</p>
+        </div>
+        <div class="how-arrow">&rarr;</div>
+        <div class="how-step">
+          <span class="how-icon">3</span>
+          <p>Built by Monday</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Made by <a href="https://linkedin.com/in/pedromarques" target="_blank" rel="noopener">Pedro Marques</a></p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
