@@ -8,7 +8,17 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-theme="cosmos">
+
+  <!-- Theme Switcher -->
+  <nav class="theme-bar">
+    <button class="theme-pill active" data-theme="cosmos">Cosmos</button>
+    <button class="theme-pill" data-theme="terminal">Terminal</button>
+    <button class="theme-pill" data-theme="sunset">Sunset</button>
+    <button class="theme-pill" data-theme="arctic">Arctic</button>
+    <button class="theme-pill" data-theme="neon">Neon</button>
+  </nav>
+
   <div class="container">
     <header>
       <span class="badge">Weekend Project</span>
@@ -71,13 +81,13 @@
               <span class="timer hidden" id="timer">00:00</span>
             </div>
 
-            <div class="transcription-box hidden" id="transcription-box">
-              <div class="transcription-text" id="transcription" contenteditable="true" data-placeholder="Transcription will appear here..."></div>
-              <p class="hint">You can edit the text above before sending</p>
+            <div class="audio-preview hidden" id="audio-preview">
+              <audio id="audio-player" controls></audio>
+              <button type="button" class="btn-rerecord" id="rerecord-btn">Re-record</button>
             </div>
 
-            <div class="no-speech hidden" id="no-speech">
-              <p>Voice recording is not supported in your browser. Please type your idea instead.</p>
+            <div class="no-mic hidden" id="no-mic">
+              <p>Audio recording is not supported in your browser. Please type your idea instead.</p>
             </div>
           </div>
 
@@ -137,5 +147,24 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+    // Theme switcher
+    document.querySelectorAll('.theme-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.theme-pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.body.setAttribute('data-theme', btn.dataset.theme);
+        localStorage.setItem('wb-theme', btn.dataset.theme);
+      });
+    });
+    // Restore saved theme
+    const saved = localStorage.getItem('wb-theme');
+    if (saved) {
+      document.body.setAttribute('data-theme', saved);
+      document.querySelectorAll('.theme-pill').forEach(b => {
+        b.classList.toggle('active', b.dataset.theme === saved);
+      });
+    }
+  </script>
 </body>
 </html>
